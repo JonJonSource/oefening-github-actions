@@ -24,9 +24,28 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Generate Build Version
+        id: version
+        run: |
+          VERSION=$(./build_version.sh)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Build version is $VERSION"
+
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
+      - name: Create Git Tag
+        run: |
+          git tag $VERSION
+          git push origin $VERSION
+
+      - uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "The build 👌. Version: $VERSION"
   lint:
 
     runs-on: ubuntu-latest
