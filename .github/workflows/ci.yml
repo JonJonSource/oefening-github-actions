@@ -49,10 +49,9 @@ jobs:
         run: ./gradlew build
 
   post-to-slack:
-    name: Post to Slack on failure
+    name: Post to Slack
     runs-on: ubuntu-latest
     needs: build
-    if: failure()
 
     steps:
       - name: Checkout Repository
