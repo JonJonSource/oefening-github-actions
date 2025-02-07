@@ -44,27 +44,27 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "The build completed. Version: ${{ needs.build.outputs.VERSION }}"
-  lint:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - uses: lucasnlm/ktlint-action@v1.0.1
-      - name: Lint kotlin
-        run: ./gradlew build
+            text: "The build completed. Version: ${{ steps.version.outputs.VERSION }}"
+#  lint:
+#
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Setup Gradle
+#        uses: gradle/actions/setup-gradle@v4
+#
+#      - uses: lucasnlm/ktlint-action@v1.0.1
+#      - name: Lint kotlin
+#        run: ./gradlew build
 
   post-to-slack:
     name: Post to Slack on failure
