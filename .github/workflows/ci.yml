@@ -49,9 +49,10 @@ jobs:
         run: ./gradlew build
 
   post-to-slack:
-    name: Post to Slack
+    name: Post to Slack on failure
     runs-on: ubuntu-latest
     needs: build
+    if: failure()
 
     steps:
       - name: Checkout Repository
@@ -63,4 +64,4 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "howdy"
+            text: "My build failed :("
