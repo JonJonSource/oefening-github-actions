@@ -44,7 +44,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "The build completed. Version: ${{ steps.version.outputs.VERSION }}"
+            text: "The build completed. Version: ${{env.VERSION }}"
 #  lint:
 #
 #    runs-on: ubuntu-latest
